@@ -29,11 +29,29 @@ function displayProductInfo(product) {
   productInfoContainer.className = "mb-2";
   productInfoContainer.innerHTML = `
     <h2 class="mb-5 mt-5">${product.name}
-    <button type="button" class="btn btn-info float-end m-2">Comprar</button>
+    <button type="button" class="btn btn-pay float-end m-2">Comprar</button>
     </h2><hr>
     <div>
       <strong>Descripción</strong>
-      <a class="float-end m-2 text-reset text-decoration-none " href="products.html"><i class="fas fa-arrow-left"></i> Volver al listado</a>
+      <a class="float-end m-2 text-reset text-decoration-none" href="products.html">
+      <button class="cssbuttons-io-button">
+  Volver
+  <div class="icon">
+    <svg
+      height="24"
+      width="24"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M0 0h24v24H0z" fill="none"></path>
+      <path
+        d="M16.172 11l-5.364-5.364 1.414-1.414L20 12l-7.778 7.778-1.414-1.414L16.172 13H4v-2z"
+        fill="currentColor"
+      ></path>
+    </svg>
+  </div>
+</button>
+</a>
       <p>${product.description}</p>
     </div>
     <div>
@@ -52,7 +70,7 @@ function displayProductInfo(product) {
   `;
 
   // Botón comprar
-const buyButton = productInfoContainer.querySelector(".btn.btn-info.float-end");
+const buyButton = productInfoContainer.querySelector(".btn.btn-pay.float-end");
 buyButton.addEventListener("click", () => {
   // Obtiene la información del producto
   const productId = product.id;
@@ -117,7 +135,7 @@ buyButton.addEventListener("click", () => {
   product.images.forEach((imageURL, index) => {
     const carouselItem = document.createElement("div");
     carouselItem.classList.add("carousel-item");
-
+    
     // Marca la primera imagen como activa
     if (index === 0) {
       carouselItem.classList.add("active");
@@ -142,7 +160,7 @@ function displayRelatedProducts(relatedProducts) {
     relatedProductCard.classList.add("col-md-4");
 
     relatedProductCard.innerHTML = `
-      <div class="card mb-4 shadow-sm">
+      <div class="card mb-4 shadow-sm related-product-card">
         <img src="${relatedProduct.image}" class="img-fluid product-image">
         <div class="card-body">
           <h6 class="card-title">${relatedProduct.name}</h6>
@@ -176,22 +194,22 @@ async function fetchProductComments() {
     return dateA - dateB;
   });
 
-  const commentsContainer = document.getElementById("comments");
+  const commentsContainer = document.getElementById("comments"); 
+  
+  commentsContainer.innerHTML = `<h3 class="mb-3 mt-4">Comentarios</h3>`; 
 
-  commentsContainer.innerHTML = `<h3 class="mb-3 mt-4">Comentarios</h3>`;
-
-
+  
   commentsData.forEach((comment) => {
     const commentItem = document.createElement("li");
     commentItem.className = "list-group-item";
-
-
+    
+    
     commentItem.innerHTML = `
       <p class="mb-1"><span class="fw-bold">${comment.user}</span> . ${comment.dateTime} . ${showStars(comment.score)}</p>
       <p class="mb-1">${comment.description}</p>
     `;
-
-
+    
+    
     commentsContainer.appendChild(commentItem);
   });
 }
@@ -271,8 +289,8 @@ function loadCommentsFromLocalStorage() {
   const storedComments = JSON.parse(localStorage.getItem('productComments')) || {};
   const productComments = storedComments[selectedProductId] || [];
   const userCommentsContainer = document.getElementById("userComments");
-
-
+  
+  
   productComments.forEach((comment) => {
     const commentElement = createCommentElement(comment);
     userCommentsContainer.appendChild(commentElement);
@@ -288,14 +306,14 @@ function getCurrentDateTime() {
   const hour = String(now.getHours()).padStart(2, '0');
   const minute = String(now.getMinutes()).padStart(2, '0');
   const second = String(now.getSeconds()).padStart(2, '0');
-
+  
   return `${year}-${month}-${day} ${hour}:${minute}:${second}`;
 }
 
 // Llama a la función para cargar los comentarios del localStorage cuando la página se carga
 loadCommentsFromLocalStorage();
 
-
+ 
 //Visualización del mail en el navbar
 const logUser = localStorage.getItem('email');
 const emailDropdown = document.getElementById('emailDropdown');
@@ -311,7 +329,7 @@ if (logUser && emailDropdown) {
      window.location.href = "login.html";
    }
  });
-
+ 
  // Agrega un evento de escucha al botón "Cerrar sesión"
  const logoutButton = document.getElementById("logout");
  if (logoutButton) {
